@@ -1,15 +1,20 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const postsRoute = require('./routes/posts'); 
+const complainsRoute = require('./routes/complains'); 
 const bodyParser = require('body-parser');
+const cors = require('cors');
 require('dotenv/config');
 
+//Middlewares
+app.use(bodyParser.json());
+app.use(cors());
 
 // Listtening on PORT 3001
 app.listen(3001);
-app.use(bodyParser.json());
-app.use('/posts', postsRoute);
+
+// Route
+app.use('/complain', complainsRoute);
 
 
 

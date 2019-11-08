@@ -8,7 +8,15 @@ const complainSchema = mongooes.Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    like: {
+        type: Number,
+        default: 0
+    },
+    dislike: {
+        type: Number,
+        default: 0
     }
-})
+}, {versionKey: false});
 
 module.exports = mongooes.model('complain', complainSchema);
