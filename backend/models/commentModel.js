@@ -1,8 +1,8 @@
 const mongooes = require('mongoose');
 
-const complainSchema = mongooes.Schema({
-    description: {
-        type: String,
+const commentSchema = mongooes.Schema({
+    content: {
+        type:String,
         require: true
     },
     date: {
@@ -19,4 +19,4 @@ const complainSchema = mongooes.Schema({
     }
 }, {versionKey: false});
 
-module.exports = mongooes.model('complain', complainSchema);
+module.exports = {commentSchema}
