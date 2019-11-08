@@ -36,7 +36,7 @@ router.get('/', async (req, res) => {
 router.get('/:complainId', async(req, res) => {
     try{
         const complain = await complainSchema.findById(req.params.complainId);
-        res.json(post);
+        res.json(complain);
     }catch (err) {
         res.json({message: err});
     }
@@ -56,6 +56,7 @@ router.delete('/:complainId', async (req, res) => {
 });
 
 
+
 //Update a post
 router.patch('/:complainId', async (req, res) => {
     try{
@@ -67,6 +68,64 @@ router.patch('/:complainId', async (req, res) => {
     }catch (err){
         res.json({message: err});
     }
+});
+
+// Increase a like for a complain post
+router.patch('/like/inc/:complainId', async (req, res) => {
+    try{
+        const updatedComplain = await complainSchema.updateOne(
+            {_id: req.params.complainId},
+            { $inc: {like: 1}}
+        );
+        res.json(updatedComplain)
+
+    }catch (err) {
+        res.json({message: err});
+    }
 })
+
+// Decrease  a like for a comaplin post
+router.patch('/like/dec/:complainId', async (req, res) => {
+    try{
+        const updatedComplain = await complainSchema.updateOne(
+            {_id: req.params.complainId},
+            { $inc: {like: -1}}
+        );
+        res.json(updatedComplain)
+
+    }catch (err) {
+        res.json({message: err});
+    }
+})
+
+// Increase a dislike for a complain post
+router.patch('/dislike/inc/:complainId', async (req, res) => {
+    try{
+        const updatedComplain = await complainSchema.updateOne(
+            {_id: req.params.complainId},
+            { $inc: {dislike: 1}}
+        );
+        res.json(updatedComplain)
+
+    }catch (err) {
+        res.json({message: err});
+    }
+})
+
+// Decrease  a dislike for a comaplin post
+router.patch('/dislike/dec/:complainId', async (req, res) => {
+    try{
+        const updatedComplain = await complainSchema.updateOne(
+            {_id: req.params.complainId},
+            { $inc: {dislike: -1}}
+        );
+        res.json(updatedComplain)
+
+    }catch (err) {
+        res.json({message: err});
+    }
+})
+
+
 
 module.exports = router; 
