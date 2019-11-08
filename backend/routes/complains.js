@@ -151,9 +151,7 @@ router.post('/comment/:complainId', async (req, res) => {
 router.delete('/comment/:complainId/:commentId', async (req, res) => {
     const complainId = req.params.complainId;
     const commentId = req.params.commentId;
-
-    console.log(commentId)
-
+    
     try{
         const removedComment = await complainSchema.updateOne(
             {_id: complainId},
