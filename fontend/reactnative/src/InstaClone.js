@@ -1,46 +1,67 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity} from 'react-native'
+import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native'
 import config from "./config"
 
 class InstaClone extends Component {
     constructor() {
         super();
         this.state = {
-            screenWidth: Dimensions.get("window").width
+            screenWidth: Dimensions.get("window").width,
+            liked: false
         };
     }
 
+    onDoublePress = (date) => {
+        const time = new Date().getTime();
+        const delta = time - this.lastPress;
+
+        const DOUBLE_PRESS_DELAY = 400;
+        if (delta < DOUBLE_PRESS_DELAY) {
+            this.likeToggled()
+        }
+        this.lastPress = time;
+    };
+
+    likeToggled(){
+        this.setState({
+            liked: !this.state.liked
+        });
+    }
 
     render() {
+        const likeIconColor = (this.state.liked) ? "rgb(41,215,184)" : null;
+
         return (
-            <View style={{ flex:1 , width: 100 + "%", height: 100 + "%"}}>
+            <View style={{ flex: 1, width: 100 + "%", height: 100 + "%" }}>
                 <View style={styles.titleBar}>
                     <Text>Campus Kvetch</Text>
                 </View>
 
                 <View style={styles.userBar}>
-                    <View style={{ flexDirection: "row", alignItems : "center"}}>
+                    <View style={{ flexDirection: "row", alignItems: "center" }}>
                         <Image style={styles.userPic}
-                           source={config.images.anonymousAVA}
-                        /> 
-                        <Text style={{ fontSize: 13, marginLeft: 10}}>Anonymous @ Case Western Reserve University (CWRU) </Text>
+                            source={config.images.anonymousAVA}
+                        />
+                        <Text style={{ fontSize: 13, marginLeft: 10 }}>Anonymous @ Case Western Reserve University (CWRU) </Text>
                     </View>
                     <View>
-                        
+
                     </View>
 
                 </View>
 
-                <View style={{minHeight: '10%'}}>
-                    <Text style={{ fontSize: 13, marginLeft: 10}}> Complaining fdsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss xfhfdhdfdf </Text>
-                </View>
+                <TouchableOpacity activeOpacity={0.7} onPress={this.onDoublePress}>
+                    <View style={{ minHeight: '10%' }}>
+                        <Text style={{ fontSize: 13, marginLeft: 10 }}> Complaining fdsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss xfhfdhdfdf </Text>
+                    </View>
+                </TouchableOpacity>
                 <View style={styles.iconBar}>
-                  <TouchableOpacity>  
-                    <Image resizeMode="contain" style={styles.icon} source={config.images.likeIcon}/>
-                    <Image style={styles.icon} source={config.images.dislikeIcon}/>
-                    <Image style={styles.icon} source={config.images.addCommentIcon}/>
-                   </TouchableOpacity> 
+                    <Image style={[styles.icon, {height: 40, width: 40, tintColor: likeIconColor}]} source={config.images.likeIcon} />
+                    <Text>Like · 1</Text>
+                    <Image style={[styles.icon, {height: 40, width:40}]}source={config.images.addCommentIcon} />
+                    <Text>Comment · 1</Text>
                 </View>
+
             </View>
         )
     }
@@ -73,16 +94,13 @@ const styles = StyleSheet.create({
         height: 50,
         width: 100 + "%",
         borderBottomColor: "rgb(233,233,233)",
-        borderTopWidth: StyleSheet.hairlineWidth,
         borderBottomWidth: StyleSheet.hairlineWidth,
         flexDirection: "row",
         alignItems: "center"
     },
     icon: {
-        height: 40,
-        width:40,
         marginLeft: 5,
-        marginTop: 20,
+        marginTop: -20,
     }
 });
 
