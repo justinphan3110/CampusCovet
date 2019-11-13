@@ -3,9 +3,22 @@ import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'rea
 import config from "../../config"
 
 class Post extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+
+        const {postID} = this.props;
+        const {description} = this.props;
+        const {date} = this.props;
+        const{like} = this.props;
+        const{dislike} = this.props;
+
+
         this.state = {
+            postID,
+            description,
+            like,
+            dislike,
+            date,
             screenWidth: Dimensions.get("window").width,
             liked: false
         };
@@ -48,12 +61,12 @@ class Post extends Component {
 
                 <TouchableOpacity activeOpacity={0.7} onPress={this.onDoublePress}>
                     <View>
-                        <Text style={{ fontSize: 13, marginLeft: 10 }}> Complaining fdsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss xfhfdhdfdf </Text>
+                        <Text style={{ fontSize: 13, marginLeft: 10 }}> {this.state.description} </Text>
                     </View>
                 </TouchableOpacity>
                 <View style={styles.iconBar}>
                     <Image style={[styles.icon, {height: 40, width: 40, tintColor: likeIconColor}]} source={config.images.likeIcon} />
-                    <Text>Like · 1</Text>
+                    <Text>Like · {this.state.like}</Text>
                     <Image style={[styles.icon, {height: 40, width:40}]}source={config.images.addCommentIcon} />
                     <Text>Comment · 1</Text>
                 </View>

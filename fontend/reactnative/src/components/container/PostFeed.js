@@ -1,23 +1,53 @@
 import React, { Component } from 'react'
 import { Post } from "../presentation"
 import { FlatList, Text, View} from "react-native";
-import {List, ListItem} from "react-native-elements"
+import {List, ListItem} from "react-native-elements";
+import axios from 'axios';
+import {REST_CONNECTION , COMPLAIN} from 'react-native-dotenv';
 
 export default class PostFeed extends Component {
 
+    //Cosntructor
+    constructor (props){
+        super(props);
+        this.state = {
+            isLoading : true,
+            post: []
+        }
+    }
+
     _renderPost({item}) {
         // return <Post />;
-        return <Post/>
+        return <Post description={item.description} like={item.like} id={item._id}/>
     }
 
     _returnKey(item) {
         return Math.random();
     }
 
+
+    componentDidMount(){
+        this.getPostInfo()
+        console.log("int didMount: " +this.state.post)
+    }
+
+
+    getPostInfo() {
+
+        axios.get(REST_CONNECTION + COMPLAIN).then((response) => {
+            this.setState({
+                post: response.data
+            })
+        }).catch(erro => console.log(erro))
+    }
+
+
     render() {
+        this.getPostInfo()
+        // console.log(this.state.post)
         return (
           <View style={{ flex: 1 }}>  
-            <FlatList data={[1,2,3,4,5,6,7,8,9,10,11,12]} 
+            <FlatList data={this.state.post} 
                renderItem={this._renderPost}
 
             />
