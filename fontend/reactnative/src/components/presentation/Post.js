@@ -1,20 +1,22 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native'
 import config from "../../config"
+import axios from 'axios';
+import {REST_CONNECTION, COMPLAIN, INCREASE_LIKE, DECREASE_LIKE} from 'react-native-dotenv';
 
 class Post extends Component {
     constructor(props) {
         super(props);
 
-        const {postID} = this.props;
+        const {id} = this.props;
         const {description} = this.props;
         const {date} = this.props;
         const{like} = this.props;
         const{dislike} = this.props;
-
+        const {comment} = this.props
 
         this.state = {
-            postID,
+            id,
             description,
             like,
             dislike,
@@ -22,6 +24,10 @@ class Post extends Component {
             screenWidth: Dimensions.get("window").width,
             liked: false
         };
+    }
+
+    onSinglePress = () => {
+        this.likeToggled();
     }
 
     onDoublePress = (date) => {
@@ -35,11 +41,42 @@ class Post extends Component {
         this.lastPress = time;
     };
 
+    componentDidUpdate(prevProps){
+        if (this.props.like != prevProps.like 
+                || this.props.dislike != prevProps.dislike){
+            this.setState({
+                like: this.props.like,
+                dislike: this.props.dislike
+            })
+        }
+    }
+
     likeToggled(){
+
+        if(!this.state.liked)
+            this.incLikeToggled()
+        else
+            this.decLikeToggled()
+
         this.setState({
             liked: !this.state.liked
         });
+
     }
+
+    incLikeToggled() {
+        axios.patch(REST_CONNECTION + COMPLAIN + INCREASE_LIKE + this.state.id)
+             .then((response) => {
+             }).catch(error => console.log(error))
+    }
+
+    decLikeToggled() {
+        axios.patch(REST_CONNECTION + COMPLAIN + DECREASE_LIKE + this.state.id)
+             .then((response) => {
+             }).catch(error => console.log(error))
+    }
+
+    
 
     render() {
         const likeIconColor = (this.state.liked) ? "rgb(41,215,184)" : null;
@@ -65,7 +102,10 @@ class Post extends Component {
                     </View>
                 </TouchableOpacity>
                 <View style={styles.iconBar}>
-                    <Image style={[styles.icon, {height: 40, width: 40, tintColor: likeIconColor}]} source={config.images.likeIcon} />
+
+                    <TouchableOpacity activeOpacity={1} onPress={this.onSinglePress}>
+                        <Image style={[styles.icon, {height: 40, width: 40, tintColor: likeIconColor}]} source={config.images.likeIcon} />
+                    </TouchableOpacity>
                     <Text>Like · {this.state.like}</Text>
                     <Image style={[styles.icon, {height: 40, width:40}]}source={config.images.addCommentIcon} />
                     <Text>Comment · 1</Text>

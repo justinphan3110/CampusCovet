@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Post } from "../presentation"
 import { FlatList, Text, View} from "react-native";
-import {List, ListItem} from "react-native-elements";
 import axios from 'axios';
 import {REST_CONNECTION , COMPLAIN} from 'react-native-dotenv';
 
@@ -18,7 +17,10 @@ export default class PostFeed extends Component {
 
     _renderPost({item}) {
         // return <Post />;
-        return <Post description={item.description} like={item.like} id={item._id}/>
+        return <Post description={item.description} 
+                     like={item.like} 
+                     id={item._id}
+                     comment={item.comments}/>
     }
 
     _returnKey(item) {
@@ -28,7 +30,6 @@ export default class PostFeed extends Component {
 
     componentDidMount(){
         this.getPostInfo()
-        console.log("int didMount: " +this.state.post)
     }
 
 
@@ -38,7 +39,7 @@ export default class PostFeed extends Component {
             this.setState({
                 post: response.data
             })
-        }).catch(erro => console.log(erro))
+        }).catch(error => console.log(error))
     }
 
 
