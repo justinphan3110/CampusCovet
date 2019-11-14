@@ -1,10 +1,24 @@
 import React, { Component } from 'react';
-import { FlatList, Text, View, StyleSheet, Image } from "react-native";
+import { Modal, Text, View, StyleSheet, Image, Alert, TouchableOpacity, TouchableHighlight } from "react-native";
 import axios from 'axios';
 import { REST_CONNECTION, COMPLAIN } from 'react-native-dotenv';
 import config from '../../config'
+import CreatePostForm from './CreatePostForm';
 
 export default class CreatePost extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            modalVisible: false,
+        }
+    }
+
+
+    setModalVisible = () => {
+        this.setState({ modalVisible: ! this.state.modalVisible });
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -13,11 +27,29 @@ export default class CreatePost extends Component {
                 </View>
 
                 <View style={styles.mainPostBar}>
+
+
                     <View style={{ flexDirection: "row", alignItems: "center" }}>
                         <Image style={styles.bagOnHeadPic}
                             source={config.images.bagOnHeadAVA}
                         />
-                        <Text style={styles.mainPostText}>What's on your mind</Text>
+                        <View>
+                            <Modal
+                                // animationType="slide"
+                                transparent={false}
+                                visible={this.state.modalVisible}
+                                onRequestClose={this.setModalVisible.bind(this)}>
+                                <View style={{ marginTop: 22 }}>
+                                    <CreatePostForm setModalVisible={this.setModalVisible} />
+                                </View>
+                            </Modal>
+
+                            <TouchableOpacity activeOpacity={0.7}
+                                onPress={this.setModalVisible.bind(this)}>
+                                <Text style={styles.mainPostText}>What's on your mind</Text>
+                            </TouchableOpacity>
+                    
+                        </View>
                     </View>
                 </View>
             </View>

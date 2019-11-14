@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity, TouchableHighlight } from 'react-native'
+import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native'
 import config from "../../config"
 import axios from 'axios';
 import { REST_CONNECTION, COMPLAIN, INCREASE_LIKE, DECREASE_LIKE } from 'react-native-dotenv';
