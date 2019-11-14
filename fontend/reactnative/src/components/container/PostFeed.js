@@ -1,26 +1,26 @@
 import React, { Component } from 'react'
 import { Post } from "../presentation"
-import { FlatList, Text, View} from "react-native";
+import { FlatList, Text, View, StyleSheet } from "react-native";
 import axios from 'axios';
-import {REST_CONNECTION , COMPLAIN} from 'react-native-dotenv';
+import { REST_CONNECTION, COMPLAIN } from 'react-native-dotenv';
 
 export default class PostFeed extends Component {
 
     //Cosntructor
-    constructor (props){
+    constructor(props) {
         super(props);
         this.state = {
-            isLoading : true,
+            isLoading: true,
             post: []
         }
     }
 
-    _renderPost({item}) {
+    _renderPost({ item }) {
         // return <Post />;
-        return <Post description={item.description} 
-                     like={item.like} 
-                     id={item._id}
-                     comment={item.comments}/>
+        return <Post description={item.description}
+            like={item.like}
+            id={item._id}
+            comment={item.comments} />
     }
 
     _returnKey(item) {
@@ -28,7 +28,7 @@ export default class PostFeed extends Component {
     }
 
 
-    componentDidMount(){
+    componentDidMount() {
         this.getPostInfo()
     }
 
@@ -47,13 +47,19 @@ export default class PostFeed extends Component {
         this.getPostInfo()
         // console.log(this.state.post)
         return (
-          <View style={{ flex: 1 }}>  
-            <FlatList data={this.state.post} 
-               renderItem={this._renderPost}
-
-            />
+            <View style={styles.container}>
+                <FlatList data={this.state.post}
+                    renderItem={this._renderPost}
+                />
 
             </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        // paddingTop: 22,
+        flex: 1
+    }
+});

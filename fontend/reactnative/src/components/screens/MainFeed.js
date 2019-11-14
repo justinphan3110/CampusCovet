@@ -7,7 +7,7 @@ class MainFeed extends Component {
     render() {
 
         return (
-            <View style={{ flex: 1, width: 100 + "%", height: 100 + "%" }}>
+            <View style={{ backgroundColor: "rgb(233,233,233)", flex: 1, width: 100 + "%", height: 100 + "%" }}>
                 <View style={styles.titleBar}>
                     <Text>Campus Kvetch</Text>
                 </View>
