@@ -89,12 +89,8 @@ class Post extends Component {
                         <Image style={styles.userPic}
                             source={config.images.anonymousAVA}
                         />
-                        <Text style={{ fontSize: 13, marginLeft: 10 }}>Anonymous @ Case Western Reserve University (CWRU) </Text>
+                        <Text style={styles.authorTitle}>Anonymous @ Case Western Reserve University (CWRU) </Text>
                     </View>
-                    <View>
-
-                    </View>
-
                 </View>
 
                 <TouchableOpacity activeOpacity={0.7} onPress={this.onDoublePress}>
@@ -122,7 +118,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         borderWidth: 0.7,
         borderColor: 'rgb(213,218,224)',
-        marginBottom: 10
+        marginBottom: 20
         // height: 200
     },
     titleBar: {
@@ -151,7 +147,7 @@ const styles = StyleSheet.create({
     },
 
     descriptionContent: {
-        fontSize: 13,
+        fontSize: 15,
         marginLeft: 10,
         marginRight: 10,
         marginBottom: 20
@@ -172,6 +168,12 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         // marginTop: -20,
         // marginBottom: -15
+    },
+
+    authorTitle: {
+        color: "#758599",
+        fontSize: 13,
+        marginLeft: 10
     }
 });
 

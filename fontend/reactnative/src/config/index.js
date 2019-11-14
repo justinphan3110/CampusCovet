@@ -5,6 +5,7 @@ export default {
         filledLikeIcon: require("../../assets/filledLike.png"),
         filledDislikeIcon: require("../../assets/filledDislike.png"),
         addCommentIcon: require("../../assets/addComment.png"),
-        anonymousAVA: require("../../assets/anonymousAVA.png")
+        anonymousAVA: require("../../assets/anonymousAVA.png"),
+        bagOnHeadAVA: require("../../assets/bagOnHead.png")
     }
 };

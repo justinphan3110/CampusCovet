@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Post } from "../presentation"
+import { Post, CreatePost } from "../presentation"
 import { FlatList, Text, View, StyleSheet } from "react-native";
 import axios from 'axios';
 import { REST_CONNECTION, COMPLAIN } from 'react-native-dotenv';
@@ -42,15 +42,21 @@ export default class PostFeed extends Component {
         }).catch(error => console.log(error))
     }
 
-
+    postFeedHeader() {
+        return <CreatePost />
+    }
     render() {
         this.getPostInfo()
         // console.log(this.state.post)
         return (
             <View style={styles.container}>
-                <FlatList data={this.state.post}
-                    renderItem={this._renderPost}
-                />
+                <View>
+                    <FlatList 
+                        ListHeaderComponent={this.postFeedHeader}
+                        data={this.state.post}
+                        renderItem={this._renderPost}
+                    />
+                </View>
 
             </View>
         )
