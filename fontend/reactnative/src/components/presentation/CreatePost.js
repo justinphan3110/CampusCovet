@@ -36,17 +36,13 @@ export default class CreatePost extends Component {
                         <View>
                             <Modal
                                 // animationType="slide"
-                                transparent={false}
+                                transparent={true}
                                 visible={this.state.modalVisible}
                                 onRequestClose={this.setModalVisible.bind(this)}>
 
-                                {/* <TouchableOpacity
-                                    style={{backgroundColor: "rgb(0,0,250)"}}
-                                    activeOpacity={1}
-                                    // onPressOut={this.setModalVisible.bind(this)}
-                                > */}
-                                    <CreatePostForm setModalVisible={this.setModalVisible} />
-                                {/* </TouchableOpacity> */}
+
+                                <CreatePostForm setModalVisible={this.setModalVisible} />
+
                             </Modal>
 
                             <TouchableOpacity activeOpacity={0.7}

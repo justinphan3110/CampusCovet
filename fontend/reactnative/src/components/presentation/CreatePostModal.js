@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextInput, Text, View, StyleSheet, Image, Alert, TouchableOpacity, TouchableHighlight, Dimensions } from "react-native";
+import { TextInput, Text, View, StyleSheet, Image, Alert, TouchableOpacity, TouchableWithoutFeedback, Dimensions } from "react-native";
 import axios from 'axios';
 import { REST_CONNECTION, COMPLAIN } from 'react-native-dotenv';
 import config from '../../config'
@@ -45,37 +45,43 @@ export default class CreatePostForm extends Component {
 
     render() {
         return (
-            <View style={styles.modalContainer}>
-                <View style={styles.createPostBar}>
-                    <Text style={styles.creatPostText}>Kvetch Post</Text>
-                    <Text style={styles.postAnonymousText}>Post Anonymous</Text>
+
+            <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}
+                                       >
+
+                <View style={styles.modalContainer}>
+
+                    <View style={styles.createPostBar}>
+                        <Text style={styles.creatPostText}>Kvetch Post</Text>
+                        <Text style={styles.postAnonymousText}>Post Anonymous</Text>
+                    </View>
+
+                    <View style={styles.postContainer}>
+
+                        <Image style={styles.bagOnHeadPic}
+                            source={config.images.bagOnHeadAVA}
+                        />
+
+                        <TextInput placeholder="What's on your mind ?"
+                            onChangeText={this.handleTextChanged.bind(this)}
+                            maxLength={100}
+                            autoFocus={true}
+                            multiline={false}
+                            style={styles.mainPostText} />
+                    </View>
+
+                    <TouchableOpacity style={styles.postButton}
+                        onPress={() => this.post()}>
+
+                        <Text style={styles.postText}>Post</Text>
+
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.close} onPress={() => this.closeModal()}>
+                        <Text >Close</Text>
+                    </TouchableOpacity>
+
                 </View>
-
-                <View style={styles.postContainer}>
-
-                    <Image style={styles.bagOnHeadPic}
-                        source={config.images.bagOnHeadAVA}
-                    />
-
-                    <TextInput placeholder="What's on your mind ?"
-                        onChangeText={this.handleTextChanged.bind(this)}
-                        maxLength={100}
-                        autoFocus={true}
-                        multiline={false}
-                        style={styles.mainPostText} />
-                </View>
-
-                <TouchableOpacity style={styles.postButton}
-                    onPress={() => this.post()}>
-
-                    <Text style={styles.postText}>Post</Text>
-
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.close} onPress={() => this.closeModal()}>
-                    <Text >Close</Text>
-                </TouchableOpacity>
-
             </View>
             // {/* </TouchableOpacity> */}
         )
