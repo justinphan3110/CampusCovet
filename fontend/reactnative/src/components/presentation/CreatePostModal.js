@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Image, Alert, TouchableOpacity, TouchableHighlight, Dimensions } from "react-native";
+import { TextInput, Text, View, StyleSheet, Image, Alert, TouchableOpacity, TouchableHighlight, Dimensions } from "react-native";
 import axios from 'axios';
 import { REST_CONNECTION, COMPLAIN } from 'react-native-dotenv';
 import config from '../../config'
@@ -11,6 +11,7 @@ export default class CreatePostForm extends Component {
         super(props);
         this.state = {
             width: Dimensions.get('window').width,
+            content: ""
         };
 
         Dimensions.addEventListener('change', (e) => {
@@ -22,17 +23,32 @@ export default class CreatePostForm extends Component {
         this.props.setModalVisible();
     }
 
+    handleTextChanged(newText) {
+        this.setState({
+            content: newText
+        })
+    }
+
+    post = () => {
+
+        if (this.state.content !== "") {
+            axios.post(REST_CONNECTION + COMPLAIN, {
+                "description": this.state.content
+            }).then(function (response) {
+                // console.log(response);
+            })
+                .catch(error => console.log(error))
+        }
+        this.closeModal();
+
+    }
 
     render() {
         return (
-            // <TouchableOpacity
-            //                   activeOpacity={1} 
-            //                   disabled={true}
-            // >
-
             <View style={styles.modalContainer}>
                 <View style={styles.createPostBar}>
                     <Text style={styles.creatPostText}>Kvetch Post</Text>
+                    <Text style={styles.postAnonymousText}>Post Anonymous</Text>
                 </View>
 
                 <View style={styles.postContainer}>
@@ -41,11 +57,16 @@ export default class CreatePostForm extends Component {
                         source={config.images.bagOnHeadAVA}
                     />
 
-                    <Text style={styles.mainPostText}>What's on your mind</Text>
+                    <TextInput placeholder="What's on your mind ?"
+                        onChangeText={this.handleTextChanged.bind(this)}
+                        maxLength={100}
+                        autoFocus={true}
+                        multiline={false}
+                        style={styles.mainPostText} />
                 </View>
 
                 <TouchableOpacity style={styles.postButton}
-                    onPress={() => alert('pressed')}>
+                    onPress={() => this.post()}>
 
                     <Text style={styles.postText}>Post</Text>
 
@@ -71,9 +92,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgb(250,250,250)',
     },
     createPostBar: {
-        height: 60,
-        justifyContent: 'center',
-        textAlignVertical: 'center',
+        height: 40,
+        alignItems: "center",
+        // textAlignVertical: 'center',
+        paddingHorizontal: 10,
+        flexDirection: "row",
         // borderRadius: 40,
         borderWidth: 0.7,
         borderColor: 'rgb(213,218,224)',
@@ -82,10 +105,15 @@ const styles = StyleSheet.create({
     },
 
     creatPostText: {
-        marginTop: 20,
         color: "#758599",
         fontSize: 13,
         marginLeft: 10,
+    },
+
+    postAnonymousText: {
+        color: "#003A49",
+        fontSize: 13,
+        marginLeft: 200,
     },
     close: {
         marginTop: 30
@@ -110,7 +138,7 @@ const styles = StyleSheet.create({
     },
 
     mainPostText: {
-        marginTop: 30,
+        marginTop: -18,
         marginLeft: 10,
         color: "#ABABAB",
         marginLeft: 10
@@ -118,7 +146,7 @@ const styles = StyleSheet.create({
 
     postButton: {
         width: 60,
-        // height: 60,
+        height: 20,
         backgroundColor: "rgb(28,14,51)",
         alignItems: 'center',
         justifyContent: 'center',
@@ -126,11 +154,13 @@ const styles = StyleSheet.create({
         borderRadius: 40,
         borderWidth: 0.7,
         borderColor: "rgb(28,14,51)",
-        // : 'center',
+        alignSelf: 'flex-end',
+        marginRight: 20,
     },
 
     postText: {
-        color: 'rgb(250,250,250)'
+        color: 'rgb(250,250,250)',
+        fontSize: 15
     }
 
 

@@ -34,7 +34,7 @@ export default class PostFeed extends Component {
 
 
     getPostInfo() {
-
+        
         axios.get(REST_CONNECTION + COMPLAIN).then((response) => {
             this.setState({
                 post: response.data
