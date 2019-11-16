@@ -3,7 +3,7 @@ import { Modal, Text, View, StyleSheet, Image, Alert, TouchableOpacity, Touchabl
 import axios from 'axios';
 import { REST_CONNECTION, COMPLAIN } from 'react-native-dotenv';
 import config from '../../config'
-import CreatePostForm from './CreatePostForm';
+import CreatePostForm from './CreatePostModal';
 
 export default class CreatePost extends Component {
 
@@ -16,7 +16,7 @@ export default class CreatePost extends Component {
 
 
     setModalVisible = () => {
-        this.setState({ modalVisible: ! this.state.modalVisible });
+        this.setState({ modalVisible: !this.state.modalVisible });
     }
 
     render() {
@@ -39,16 +39,23 @@ export default class CreatePost extends Component {
                                 transparent={false}
                                 visible={this.state.modalVisible}
                                 onRequestClose={this.setModalVisible.bind(this)}>
-                                <View style={{ marginTop: 22 }}>
+
+                                {/* <TouchableOpacity
+                                    style={{backgroundColor: "rgb(0,0,250)"}}
+                                    activeOpacity={1}
+                                    // onPressOut={this.setModalVisible.bind(this)}
+                                > */}
                                     <CreatePostForm setModalVisible={this.setModalVisible} />
-                                </View>
+                                {/* </TouchableOpacity> */}
                             </Modal>
 
                             <TouchableOpacity activeOpacity={0.7}
-                                onPress={this.setModalVisible.bind(this)}>
+                                onPress={this.setModalVisible.bind(this)}
+                            >
+
                                 <Text style={styles.mainPostText}>What's on your mind</Text>
                             </TouchableOpacity>
-                    
+
                         </View>
                     </View>
                 </View>
@@ -64,18 +71,17 @@ const styles = StyleSheet.create({
         borderWidth: 0.7,
         borderColor: 'rgb(213,218,224)',
         marginBottom: 20,
-        marginTop: 10
+        marginTop: 10,
+        backgroundColor: 'rgb(250,250,250)'
         // height: 200
     },
     createPostBar: {
         height: 40,
-        flex: 1,
         justifyContent: 'center',
         textAlignVertical: 'center',
         borderRadius: 4,
         borderWidth: 0.7,
-        borderColor: 'rgb(213,218,224)'
-
+        borderColor: 'rgb(213,218,224)',
     },
 
     mainPostBar: {

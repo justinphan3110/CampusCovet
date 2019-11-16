@@ -66,6 +66,7 @@ export default class PostFeed extends Component {
 const styles = StyleSheet.create({
     container: {
         // paddingTop: 22,
-        flex: 1
+        flex: 1,
+        backgroundColor: '#EEF2F6'
     }
 });
