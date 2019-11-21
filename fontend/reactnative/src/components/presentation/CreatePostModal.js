@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextInput, Text, View, StyleSheet, Image, Alert, TouchableOpacity, TouchableWithoutFeedback, Dimensions } from "react-native";
+import { TextInput, Text, View, StyleSheet, Image, Picker, TouchableOpacity, TouchableWithoutFeedback, Dimensions } from "react-native";
 import axios from 'axios';
 import { REST_CONNECTION, COMPLAIN } from 'react-native-dotenv';
 import config from '../../config'
@@ -11,7 +11,8 @@ export default class CreatePostForm extends Component {
         super(props);
         this.state = {
             width: Dimensions.get('window').width,
-            content: ""
+            content: "",
+            topic: "random",
         };
 
         Dimensions.addEventListener('change', (e) => {
@@ -32,8 +33,10 @@ export default class CreatePostForm extends Component {
     post = () => {
 
         if (this.state.content !== "") {
+            console.log("posting: topic " + this.state.topic)
             axios.post(REST_CONNECTION + COMPLAIN, {
-                "description": this.state.content
+                "description": this.state.content,
+                "topic" : this.state.topic
             }).then(function (response) {
                 // console.log(response);
             })
@@ -47,7 +50,7 @@ export default class CreatePostForm extends Component {
         return (
 
             <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}
-                                       >
+            >
 
                 <View style={styles.modalContainer}>
 
@@ -70,12 +73,28 @@ export default class CreatePostForm extends Component {
                             style={styles.mainPostText} />
                     </View>
 
-                    <TouchableOpacity style={styles.postButton}
-                        onPress={() => this.post()}>
+                    <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+                        <View style={{marginTop: 6}}>
+                            <Picker 
+                                 style={{width: 130}} 
+                                selectedValue = {this.state.topic}
+                                onValueChange={(itemValue, itemIndex) =>
+                                this.setState({topic: itemValue
+                                })}>
+                            
+                            <Picker.Item label="random" value="random" />
+                            <Picker.Item label="housing" value="housing"/>
+                            <Picker.Item label="food" value="food"/>
+                            <Picker.Item label="class" value="class"/>
+                            </Picker>
+                        </View>
+                        <TouchableOpacity style={styles.postButton}
+                            onPress={() => this.post()}>
 
-                        <Text style={styles.postText}>Post</Text>
+                            <Text style={styles.postText}>Post</Text>
 
-                    </TouchableOpacity>
+                        </TouchableOpacity>
+                    </View>
 
                     <TouchableOpacity style={styles.close} onPress={() => this.closeModal()}>
                         <Text >Close</Text>
@@ -160,7 +179,7 @@ const styles = StyleSheet.create({
         borderRadius: 40,
         borderWidth: 0.7,
         borderColor: "rgb(28,14,51)",
-        alignSelf: 'flex-end',
+        // alignSelf: 'flex-end',
         marginRight: 20,
     },
 

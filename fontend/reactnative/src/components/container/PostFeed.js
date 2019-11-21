@@ -20,7 +20,8 @@ export default class PostFeed extends Component {
         return <Post description={item.description}
             like={item.like}
             id={item._id}
-            comment={item.comments} />
+            comment={item.comments}
+            topic={item.topic} />
     }
 
     _returnKey(item) {

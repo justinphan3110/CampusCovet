@@ -10,6 +10,7 @@ class Post extends Component {
 
         const { id } = this.props;
         const { description } = this.props;
+        const { topic } = this.props
         const { date } = this.props;
         const { like } = this.props;
         const { dislike } = this.props;
@@ -21,6 +22,7 @@ class Post extends Component {
             like,
             dislike,
             date,
+            topic,
             screenWidth: Dimensions.get("window").width,
             liked: false
         };
@@ -89,7 +91,12 @@ class Post extends Component {
                         <Image style={styles.userPic}
                             source={config.images.anonymousAVA}
                         />
-                        <Text style={styles.authorTitle}>Anonymous @ Case Western Reserve University (CWRU) </Text>
+                        <View>
+                            <View style={styles.topicBox}>
+                                <Text style={styles.topicTitle}>{this.state.topic}</Text>
+                            </View>
+                            <Text style={styles.authorTitle}>Anonymous @ Case Western Reserve University (CWRU) </Text>
+                        </View>
                     </View>
                 </View>
 
@@ -174,7 +181,19 @@ const styles = StyleSheet.create({
         color: "#758599",
         fontSize: 13,
         marginLeft: 10
+    },
+
+    topicBox: {
+        marginLeft: 10,
+        backgroundColor: "#E4F1FF",
+        alignSelf: 'flex-start'
+    },
+    topicTitle: {
+        color: "#5BACFF",
+        fontSize: 13,
+        // marginLeft: 10
     }
+
 });
 
 export default Post;
