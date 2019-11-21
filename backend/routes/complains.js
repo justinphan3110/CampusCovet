@@ -16,7 +16,8 @@ router.post('/', async (req, res) => {
         }
     }
     const complain = new complainSchema({
-        description: req.body.description
+        description: req.body.description,
+        topic: req.body.topic
     });
     try{
         const  savedComplain = await complain.save();
