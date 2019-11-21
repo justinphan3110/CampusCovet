@@ -17,7 +17,12 @@ router.post('/', async (req, res) => {
         else des += (words[i] + ' ')
     }
     const complain = new complainSchema({
+<<<<<<< HEAD
         description: des
+=======
+        description: req.body.description,
+        topic: req.body.topic
+>>>>>>> 2b12e793df4c92f255ca3d7ca482ed3e7efc1f08
     });
     try{
         const  savedComplain = await complain.save();
