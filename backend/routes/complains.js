@@ -8,15 +8,16 @@ const badWords = require('./badwords')
 
 // Submit a complain post
 router.post('/', async (req, res) => {
-    console.log(req.body)
-
-    for (i in badWords) {
-        if (req.body.description.includes(badWords[i])) {
-            req.body.description = req.body.description.replace(badWords[i], ' ****')
+    let words = req.body.description.split(" ")
+    let des = ''
+    for (i in words) {
+        if (badWords.includes(words[i].toLowerCase())) {
+            des += '**** '
         }
+        else des += (words[i] + ' ')
     }
     const complain = new complainSchema({
-        description: req.body.description
+        description: des
     });
     try{
         const  savedComplain = await complain.save();
