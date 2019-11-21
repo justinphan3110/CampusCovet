@@ -3,15 +3,21 @@ const router = express.Router();
 const complainSchema = require('../models/complainModel');
 const commentSchema = require('../models/commentModel');
 
+const badWords = require('./badwords')
+
 
 // Submit a complain post
 router.post('/', async (req, res) => {
+    console.log(req.body)
+
+    for (i in badWords) {
+        if (req.body.description.includes(badWords[i])) {
+            req.body.description = req.body.description.replace(badWords[i], ' ****')
+        }
+    }
     const complain = new complainSchema({
         description: req.body.description
     });
-
-    console.log(req.body)
-    
     try{
         const  savedComplain = await complain.save();
         res.json(savedComplain); 
@@ -26,7 +32,7 @@ router.post('/', async (req, res) => {
 // GET All the complains
 router.get('/', async (req, res) => {
     try{
-        const complains = await complainSchema.find();
+        const complains = await complainSchema.find().sort({date: -1});
         res.json(complains);
     }catch(err){
         res.json({message:err});
@@ -43,6 +49,19 @@ router.get('/:complainId', async(req, res) => {
         res.json({message: err});
     }
 });
+
+//Get post by topic
+router.get('/topic/:topic', async(req, res) => {
+    try {
+        //console.log(req.params.topic)
+        const complains = await complainSchema.find(
+            {topic: req.params.topic}).sort({date: -1});
+        res.json(complains);
+    }
+    catch (err) {
+        res.json({message:err});
+    }
+})
 
 // Delete complain post
 router.delete('/:complainId', async (req, res) => {
@@ -61,6 +80,11 @@ router.delete('/:complainId', async (req, res) => {
 
 //Update a post
 router.patch('/:complainId', async (req, res) => {
+    for (i in badWords) {
+        if (req.body.description.includes(badWords[i])) {
+            req.body.description = req.body.description.replace(badWords[i], ' ****')
+        }
+    }
     try{
         const updatedComplain = await complainSchema.updateOne(
             {_id: req.params.complainId},
@@ -132,7 +156,11 @@ router.patch('/dislike/dec/:complainId', async (req, res) => {
 
 // Post a comment in a complain
 router.post('/comment/:complainId', async (req, res) => {
-    
+    for (i in badWords) {
+        if (req.body.content.includes(badWords[i])) {
+            req.body.content = req.body.content.replace(badWords[i], ' ****')
+        }
+    }
     try  {
          
         const updatedComplain = await complainSchema.updateOne(

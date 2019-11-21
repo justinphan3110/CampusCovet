@@ -39,6 +39,10 @@ const complainSchema = mongooes.Schema({
         type: Number,
         default: 0
     },
+    topic: {
+        type: String,
+        default: 'random'
+    },
     comments: {
         type: [commentSchema],
         default: []
